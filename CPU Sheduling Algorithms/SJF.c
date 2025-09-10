@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<limits.h>
 #define MAX 20
 
 struct SJF{
@@ -58,12 +59,12 @@ void Calculate(int n) {
 
     while (completed < n) {
         int idx = -1;
-        int min_bt = 1e9;
+        int min_bt = INT_MAX;
 
         // Check the ready queue -> choose the process with the shortest burst time
         for (int i = 0; i < n; i++) {
             if (!arr[i].done && arr[i].at <= curr) {
-                if (arr[i].bt < min_bt || 
+                if (idx == -1 || arr[i].bt < min_bt || 
                    (arr[i].bt == min_bt && arr[i].at < arr[idx].at) || 
                    (arr[i].bt == min_bt && arr[i].at == arr[idx].at && arr[i].pid < arr[idx].pid)) {
                     min_bt = arr[i].bt;
@@ -113,13 +114,13 @@ int main(){
     printf("\n");
 
     float sumTAT  = 0;
-    float sumCT  = 0;
+    float sumWT  = 0;
     for(int i=0;i<n;i++){
         sumTAT += arr[i].tat;
-        sumCT += arr[i].wt;
+        sumWT += arr[i].wt;
     }
     printf("total TAT = %.2f & avg TAT = %.2f\n",sumTAT,sumTAT/n);
-    printf("total CT = %.2f & avg CT = %.2f",sumCT,sumCT/n);
+    printf("total WT = %.2f & avg WT = %.2f",sumWT,sumWT/n);
 
 
     return 0;
