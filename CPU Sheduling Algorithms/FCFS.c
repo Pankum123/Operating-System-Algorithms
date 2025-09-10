@@ -19,15 +19,21 @@ void Calculate(int n){
         }
     }
 
-    // calculate CT, tat and wt
+    // calculate CT, TAT and WT
     for(int i=0;i<n;i++){
-        if(arr[i].at > arr[i-1].ct){
-            arr[i].ct = arr[i].at + arr[i].bt; // CPU idle
-        } else {
-            arr[i].ct = arr[i-1].ct + arr[i].bt; // no idle
+        if(i == 0){
+            arr[i].ct = arr[i].at + arr[i].bt;   // first process always completes at AT + BT
+        } 
+        else {
+            if(arr[i].at > arr[i-1].ct){
+                arr[i].ct = arr[i].at + arr[i].bt;   // CPU idle time
+            } else {
+                arr[i].ct = arr[i-1].ct + arr[i].bt; // continuous execution
+            }
         }
-        arr[i].tat = arr[i].ct - arr[i].at;     // calculate tat
-        arr[i].wt = arr[i].tat - arr[i].bt;
+
+        arr[i].tat = arr[i].ct - arr[i].at;   
+        arr[i].wt  = arr[i].tat - arr[i].bt;  
     }
     
 }
